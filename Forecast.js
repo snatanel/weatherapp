@@ -10,7 +10,7 @@ class Forecast extends Component {
         <Text style={styles.mainText}>
           Current conditions: {this.props.description}
         </Text>
-        <Text style={styles.bigText}>{this.props.temp} ºF</Text>
+        <Text style={styles.bigText}>{this.props.temp} ºC</Text>
       </View>
     );
   }

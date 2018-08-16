@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TextInput, Image } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, ImageBackground } from "react-native";
 import Forecast from "./Forecast";
 import OpenWeatherMap from "./open_weather_map";
-console.log(OpenWeatherMap);
+
 class WeatherProject extends Component {
   state = { zip: "", forecast: {} };
   _handleTextChange = event => {
@@ -17,41 +17,83 @@ class WeatherProject extends Component {
   render() {
     const { forecast } = this.state;
     const { main, description, temp } = forecast;
-    return (
+
+    if (this.state.forecast !== null) {
+      content = (<Forecast main={main} description={description} temp={temp} />)
+    }
+
+    return (      
       <View style={styles.container}>
-        <Text style={styles.welcome}>You input {this.state.zip}.</Text>
-        {Object.keys(forecast).length ? (
+        <ImageBackground
+          source={require("./flowers.png")}
+          resizeMode="cover"
+          style={styles.backdrop}
+        >
+          <View style={styles.overlay}>
+            <View style={styles.row}>
+              <Text style={styles.mainText}>
+                Current weather for
+              </Text>
+              <View style={styles.zipContainer}>
+                       <TextInput
+                  style={[styles.zipCode, styles.mainText]}
+                  onSubmitEditing={this._handleTextChange}
+                  underlineColorAndroid="transparent"       
+                  />
+              </View>
+            </View>
+              {Object.keys(forecast).length ? (
+                <Forecast main={main} description={description} temp={temp} />
+              ) : null}
+            {Object.keys(forecast).length ? (
           <Forecast main={main} description={description} temp={temp} />
         ) : null}
-        <TextInput
-          style={styles.input}
-          onSubmitEditing={this._handleTextChange}
-        />
+          </View>
+        </ImageBackground>
       </View>
     );
   }
 }
 
+const baseFontSize=16;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'absolute',
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#666666"
   },
-  input: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
+  backdrop: {
+    flex: 1,
+    flexDirection: "column",
   },
-  input: {
-    fontSize: 20,
-    borderWidth: 2,
-    padding: 2,
-    height: 40,
-    width: 100,
-    textAlign: "center"
-  }
+  overlay: {
+    paddingTop: 5,
+    backgroundColor: "#000000",
+    opacity: 0.5,
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  row: {
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    alignItems: "center",
+    padding: 30
+  },
+  zipContainer: {
+    borderBottomColor: "#DDDDDD",
+    borderBottomWidth: 1,
+    marginLeft: 5,
+    marginTop: 3,
+    width: 80,
+    height: baseFontSize + 10,
+    justifyContent: "flex-end"
+  },
+  zipCode: { flex: 1 },
+  mainText: { 
+    fontSize: baseFontSize,
+    color: "#FFFFFF",
+    }
 });
-
 export default WeatherProject;
