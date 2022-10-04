@@ -19,14 +19,18 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
     "expo": "^27.0.1",
-    "react": "16.3.1",
-    "react-native": "~0.55.2"
-  }
+    "react": "16.5.0",
+    "react-native": "~0.64.0",
+    "@snyk/protect": "latest"
+  },
+  "snyk": true
 }
